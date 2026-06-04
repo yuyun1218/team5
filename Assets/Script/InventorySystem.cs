@@ -2,19 +2,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public class InventorySystem : MonoBehaviour
 {
-    // --- 核心修正：加入 Instance 定義 ---
     public static InventorySystem Instance;
 
+    [Header("═══ 背包 UI 引用 ═══")]
     public GameObject inventoryPanel;
     public Transform slotParent;
     public GameObject slotPrefab;
+
+    [Header("═══ 道具清單 ═══")]
     public List<ItemData> items = new List<ItemData>();
 
     private void Awake()
     {
-        // --- 核心修正：初始化 Instance ---
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
@@ -22,6 +24,34 @@ public class InventorySystem : MonoBehaviour
     private void Start()
     {
         if (inventoryPanel != null) inventoryPanel.SetActive(false);
+    }
+
+    // --- 查詢數量邏輯 ---
+    public int GetItemCount(ItemData data)
+    {
+        if (data == null) return 0;
+        
+        int count = 0;
+        foreach (ItemData item in items)
+        {
+            if (item == data) count++;
+        }
+        return count; 
+    }
+
+    // --- 扣除道具邏輯 ---
+    public void RemoveItem(ItemData data, int amount = 1)
+    {
+        if (data == null) return;
+
+        for (int i = 0; i < amount; i++)
+        {
+            if (items.Contains(data))
+            {
+                items.Remove(data);
+            }
+        }
+        UpdateUI();
     }
 
     public void ToggleInventory()
@@ -37,74 +67,106 @@ public class InventorySystem : MonoBehaviour
     {
         if (data == null) return;
         items.Add(data);
+        UpdateUI();
     }
 
     public void UpdateUI()
+{
+    if (slotParent == null || slotPrefab == null) return;
+
+    foreach (Transform child in slotParent) Destroy(child.gameObject);
+
+    foreach (ItemData item in items)
     {
-        if (slotParent == null || slotPrefab == null) return;
+        GameObject slot = Instantiate(slotPrefab, slotParent);
+        
+        Image iconImage = null;
+        
+        Transform iconTransform = slot.transform.Find("Icon"); 
+        if (iconTransform == null) iconTransform = slot.transform.Find("Image");
 
-        foreach (Transform child in slotParent) Destroy(child.gameObject);
-
-        foreach (ItemData item in items)
+        if (iconTransform != null)
         {
-            GameObject slot = Instantiate(slotPrefab, slotParent);
-            Image icon = slot.GetComponentInChildren<Image>();
-            if (icon != null) icon.sprite = item.itemIcon;
-
-            slot.GetComponent<Button>().onClick.AddListener(() => UseItem(item));
+            iconImage = iconTransform.GetComponent<Image>();
         }
+        else
+        {
+            foreach (Image img in slot.GetComponentsInChildren<Image>())
+            {
+                if (img.gameObject != slot)
+                {
+                    iconImage = img;
+                    break;
+                }
+            }
+        }
+
+        if (iconImage != null) 
+        {
+            iconImage.sprite = item.itemIcon;
+            iconImage.color = Color.white;
+            iconImage.gameObject.SetActive(true);
+        }
+
+        // 綁定左鍵點擊事件
+        ItemData itemData = item;
+        Button btn = slot.GetComponent<Button>();
+        if (btn != null)
+        {
+            btn.onClick.AddListener(() => UseItem(itemData));
+        }
+
+        // 👇 加入右鍵提示功能（新增）
+        InventorySlotTooltip tooltip = slot.GetComponent<InventorySlotTooltip>();
+        if (tooltip == null)
+        {
+            tooltip = slot.AddComponent<InventorySlotTooltip>();
+        }
+        tooltip.SetItem(itemData);
     }
+}
 
     public void UseItem(ItemData item)
     {
-        // 1. 限制：玩家僅能在 NPC 視角使用道具 (對接 CameraManager)
-        if (CameraManager.Instance == null || !CameraManager.Instance.isNPCView)
+        Debug.Log($"[UseItem] 點擊了: {item?.itemName}");
+
+        if (item == null)
         {
-            if (UIManager.Instance != null) UIManager.Instance.ShowMessage("目前無法使用");
+            Debug.LogError("[UseItem] item 為 null");
             return;
         }
 
-        // 2. 限制：檢查是否在規定範圍 (例如木棍需在槓桿區域)
-        if (!IsInRangeFor(item))
-        {
-            if (UIManager.Instance != null) UIManager.Instance.ShowMessage("目前無法使用");
-            return;
-        }
-
-        // 3. 執行使用邏輯
+        // 不檢查視角，直接使用道具
         if (item.itemName == "木棍")
         {
-            // 觸發木棍槓桿邏輯 (需搭配 LeverSystem)
-            if (LeverSystem.Instance != null)
+            Debug.Log("[UseItem] 木棍被點擊");
+            if (UIManager.Instance != null) UIManager.Instance.ShowMessage("點按使用");
+        }
+        else if (item.itemName.Contains("平面鏡") || item.itemName.Contains("凸面鏡"))
+        {
+            Debug.Log($"[UseItem] {item.itemName} 被點擊，生成物品");
+            if (ItemSpawner.Instance != null)
             {
-                LeverSystem.Instance.SetupLever(item);
-                items.Remove(item);
-                UpdateUI();
-                CloseInventory();
+                ItemSpawner.Instance.SpawnItem(item);
+                Debug.Log("[UseItem] ItemSpawner 已調用");
             }
             else
             {
-                if (UIManager.Instance != null) UIManager.Instance.ShowMessage("目前無法使用");
+                Debug.LogError("[UseItem] ItemSpawner.Instance 為 null");
             }
+            CloseInventory();
         }
-        else if (ItemSpawner.Instance != null)
+        else
         {
-            // 呼叫生成 (ItemSpawner 會自動回收舊道具，包含平面鏡邏輯)
-            ItemSpawner.Instance.SpawnItem(item);
-            
-            // 從背包清單移除
+            Debug.Log($"[UseItem] {item.itemName} 被點擊（其他道具）");
+            if (ItemSpawner.Instance != null)
+            {
+                ItemSpawner.Instance.SpawnItem(item);
+                Debug.Log("[UseItem] ItemSpawner 已調用");
+            }
             items.Remove(item);
             UpdateUI();
             CloseInventory();
         }
-    }
-
-    // 輔助方法：判斷是否在可使用的規定範圍
-    private bool IsInRangeFor(ItemData item)
-    {
-        // 根據您的需求，NPC 視角僅在特殊區域切換
-        // 因此只要 CameraManager.Instance.isNPCView 為 true，通常代表已在規定範圍
-        // 若未來需要更精細判斷 (例如木棍只能在 A 洞口)，可在此擴充邏輯
-        return CameraManager.Instance.isNPCView;
     }
 }

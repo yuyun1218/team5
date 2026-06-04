@@ -49,29 +49,77 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.3.11f1/Unity.app/Contents/Resources/BuildPipeline/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Script/NPCLinkData.cs" />
     <Compile Include="Assets/Script/ItemData.cs" />
+    <Compile Include="Assets/Script/ItemHighlightManager.cs" />
     <Compile Include="Assets/Script/PickupItem.cs" />
     <Compile Include="Assets/Script/ItemManager.cs" />
     <Compile Include="Assets/Script/CameraManager.cs" />
     <Compile Include="Assets/Script/InteractArea.cs" />
     <Compile Include="Assets/Script/UIManager.cs" />
+    <Compile Include="Assets/Script/FreeCamExitZone.cs" />
+    <Compile Include="Assets/Script/FreeCameraTrigger.cs" />
     <Compile Include="Assets/Script/RotatingTitle.cs" />
     <Compile Include="Assets/Script/ItemSpawner.cs" />
+    <Compile Include="Assets/Script/IsolatedCameraLogicSystem.cs" />
     <Compile Include="Assets/Script/GroundClickDetector.cs" />
     <Compile Include="Assets/Script/PlayerInputHandler.cs" />
+    <Compile Include="Assets/Script/PasswordDoorTrigger.cs" />
     <Compile Include="Assets/Script/InteractAreaSetupTool.cs" />
     <Compile Include="Assets/Script/DraggableObject.cs" />
     <Compile Include="Assets/Script/LeverSystem.cs" />
+    <Compile Include="Assets/Script/FreeCameraScopeTrigger.cs" />
+    <Compile Include="Assets/Script/PivotDoorController.cs" />
     <Compile Include="Assets/Script/MirrorTarget.cs" />
+    <Compile Include="Assets/Script/TooltipTrigger.cs" />
     <Compile Include="Assets/Script/DebugTrigger.cs" />
     <Compile Include="Assets/Script/NPCController.cs" />
     <Compile Include="Assets/Script/InventorySystem.cs" />
+    <Compile Include="Assets/Script/DeathTrigger.cs" />
+    <Compile Include="Assets/Script/CameraLogicBinder.cs" />
+    <Compile Include="Assets/Script/DeathMenuManager.cs" />
     <Compile Include="Assets/TutorialInfo/Scripts/Readme.cs" />
     <Compile Include="Assets/Script/ClickIndicator.cs" />
+    <Compile Include="Assets/Script/DeskLampController.cs" />
     <Compile Include="Assets/Script/NewMonoBehaviourScript.cs" />
+    <Compile Include="Assets/Script/ZoomTrigger.cs" />
     <Compile Include="Assets/Script/PlayerController.cs" />
+    <Compile Include="Assets/Script/LockedFixedCameraArea.cs" />
+    <Compile Include="Assets/Script/FreeMoveCamera_Type1.cs" />
+    <Compile Include="Assets/Script/SpecialAreaTrigger.cs" />
+    <Compile Include="Assets/Script/InventoryRightClick.cs" />
+    <Compile Include="Assets/Script/ItemRequiredZone.cs" />
     <Compile Include="Assets/Script/PulsingTitle.cs" />
+    <Compile Include="Assets/Script/InventorySlotTooltip.cs" />
+    <Compile Include="Assets/Script/FieldItemPrompt.cs" />
     <Compile Include="Assets/trap/Trap.cs" />
+    <Compile Include="Assets/Script/TooltipManager.cs" />
+    <Compile Include="Assets/Script/InventoryTooltipTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
+    <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
+    <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
+    <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

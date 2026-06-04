@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d6c5d65caf9a04c1995e19ffe1c1efe4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - toggleStatusImage: {instanceID: 0}
+  - redStateSprite: {instanceID: 0}
+  - greenStateSprite: {instanceID: 0}
+  - freeMoveCamera: {instanceID: 0}
+  - originalNPCObject: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

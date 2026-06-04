@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3186030760909491972}
   - component: {fileID: 8513296411253469891}
   - component: {fileID: 1769205049958728932}
-  - component: {fileID: 6127370191878480433}
   m_Layer: 6
   m_Name: InteractArea_Library
   m_TagString: InteractArea
@@ -113,17 +112,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6127370191878480433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922578383067219580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71b28494850c74a58b99330b54f272ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractArea
-  fixedCamera: {fileID: 0}
-  debugMode: 0

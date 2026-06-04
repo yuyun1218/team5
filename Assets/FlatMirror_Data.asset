@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: FlatMirror_Data
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\u5E73\u9762\u93E1"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: de7f68e6daa244459a3d9590cfe7b0fb, type: 3}
   prefab: {fileID: 957516152223205106, guid: ebc12892d69a84c098bc8701582cec7f, type: 3}
+  itemDescription: "\uFF1A\u7528\u4F86\u53CD\u5C04\u5F71\u50CF\uFF0C\u53EA\u80FD\u7167\u51FA\u8207\u81EA\u8EAB\u540C\u7B49\u9762\u7A4D\u7BC4\u570D"

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ConvexMirror_Data
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\u51F8\u9762\u93E1"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   prefab: {fileID: 6179055374941183395, guid: b66f79bf1509b401d80b85a3f139efd0, type: 3}
+  itemDescription: "\uFF1A\u7528\u4F86\u53CD\u5C04\u5F71\u50CF\uFF0C\u93E1\u9762\u5916\u5F4E\u3001\u53EF\u53CD\u5C04\u7BC4\u570D\u8F03\u5EE3"
