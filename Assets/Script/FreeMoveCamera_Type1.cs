@@ -105,7 +105,7 @@ public class FreeMoveCamera : MonoBehaviour
 
                 isAtTeleportPoint = true;
 
-                ShowLocalPrompt("按 Space 返回");
+                UIManager.Instance.ShowInteractPrompt("按 Space 返回", 3.0f);
             }
             else
             {
@@ -119,8 +119,9 @@ public class FreeMoveCamera : MonoBehaviour
                 isAtTeleportPoint = false;
                 isInFixedView = false;
 
-                ShowLocalPrompt("按 Space 觀察");
+                UIManager.Instance.ShowInteractPrompt("按 Space 靠近觀察", 3.0f);
             }
+            
 
             return;
         }

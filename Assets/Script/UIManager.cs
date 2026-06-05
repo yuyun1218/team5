@@ -11,11 +11,116 @@ public class UIManager : MonoBehaviour
     public Text messageText;
     [Tooltip("畫面中央跳出大通知時，文字背後的黑底面板")]
     public GameObject messageBgPanel;
+    
+    
 
     [Header("═══ 面板（Panels）═══")]
     public GameObject startPanel;
     public GameObject deathPanel;
     public GameObject passPanel;
+    [Header("═══ 新增：觸發區域與死因面板 ═══")]
+    [Header("═══ 新增：多種死因面板 ═══")]
+public GameObject[] deathReasonPanels; // 拖入不同的死因面板
+private int currentDeathReasonIndex = 0; // 用來紀錄目前要顯示哪一個
+
+// 修改顯示方法，讓你可以指定顯示哪一個
+public void ShowDeathReasonPanel(int index)
+{
+    if (index >= 0 && index < deathReasonPanels.Length)
+    {
+        currentDeathReasonIndex = index;
+        // 先關閉所有可能的面板，再開啟指定的
+        foreach (var p in deathReasonPanels) p.SetActive(false);
+        deathReasonPanels[index].SetActive(true);
+        
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+}
+
+// 修改確認按鈕邏輯
+public void OnDeathReasonConfirmClicked()
+{
+    // 關閉目前顯示的那一個
+   foreach (var p in deathReasonPanels) SetPanelActive(p, false);
+        SetPanelActive(deathPanel, true); // 終於顯示死亡面板了
+    
+    // 進入最終死亡面板
+    SetGameState(GameState.Death);
+    
+}
+
+public GameObject interactPanel;   // 互動提示面板
+    [Header("═══ 死亡原因提示介面 (新增) ═══")]
+public GameObject deathReasonPanel; // 專門給死亡原因圖用的 Panel
+
+private int pendingReasonIndex = 0; // 新增這個：暫存要顯示的編號
+
+// 設定要顯示哪一個，之後按鈕會用到
+public void SetPendingReason(int index)
+{
+    pendingReasonIndex = index;
+}
+// 1. 互動面板『是』的按鈕：前往死因面板
+// 在互動面板的「是」按鈕呼叫此方法
+// 在 UIManager.cs 中加入這段
+// 詢問面板「是」的按鈕 -> 顯示死因圖
+    public void ShowSpecificDeathReason(int index)
+    {
+        SetPanelActive(interactPanel, false);
+        for (int i = 0; i < deathReasonPanels.Length; i++)
+        {
+            SetPanelActive(deathReasonPanels[i], i == index);
+        }
+    }
+// 2. 互動面板『否』的按鈕：關閉互動介面
+public void OnInteractNoClicked()
+{
+    if (interactPanel) interactPanel.SetActive(false);
+    Time.timeScale = 1f; // 恢復遊戲
+}
+
+// 3. 死因面板『確認』的按鈕：前往最終死亡選單
+//public void OnDeathReasonConfirmClicked()
+//{
+    //if (deathReasonPanel) deathReasonPanel.SetActive(false);
+    //SetGameState(GameState.Death); // 切換到死亡狀態，顯示 deathPanel
+//}
+
+// 新增此方法，由觸發死亡的邏輯呼叫
+public void ShowDeathReasonPanel()
+{
+    if (deathReasonPanel != null)
+    {
+        deathReasonPanel.SetActive(true);
+        Time.timeScale = 0f; // 暫停遊戲
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+}
+public void OnClickDeathReasonPanel()
+{
+    // 1. 關掉死因圖片
+    if (deathReasonPanel != null) deathReasonPanel.SetActive(false);
+    
+    // 2. 這時才正式顯示「死亡面板」(包含 Yes/No 按鈕)
+    if (deathPanel != null) deathPanel.SetActive(true);
+    
+    // 如果有需要，顯示通知文字
+    ShowMessage("遊戲失敗！");
+}
+
+// 綁定給 deathReasonPanel 上面按鈕的方法
+public void OnClickCloseReasonPanel()
+{
+    // 隱藏死亡原因圖
+    if (deathReasonPanel != null) deathReasonPanel.SetActive(false);
+    
+    
+    // 顯示原有的死亡面板
+    SetGameState(GameState.Death);
+}
    
     [Header("═══ 按鈕（Buttons）═══")]
     public Button playButton;
@@ -192,16 +297,28 @@ public void Hide2DHintPanel()
                 break;
 
             case GameState.Death:
-                SetPanelActive(startPanel, false);
-                SetPanelActive(deathPanel, true);
-                SetPanelActive(passPanel, false);
-                ShowMessage("遊戲失敗！");
-                
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                
-                Time.timeScale = 0f; 
-                break;
+    SetPanelActive(startPanel, false);
+    SetPanelActive(deathPanel, true); // 這裡只開最終死亡選單
+    SetPanelActive(passPanel, false);
+    
+    // ⚠️ 這裡移除掉對 deathReasonPanel 的舊呼叫
+    
+    Time.timeScale = 0f; 
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+    break;
+    
+    // 顯示你的死因圖片面板 (假設你已經在 Inspector 拖入了 deathReasonPanel)
+    //if (deathReasonPanel != null) 
+    //{
+        //deathReasonPanel.SetActive(true);
+    //}
+    
+    // 依然保持遊戲暫停
+    //Time.timeScale = 0f; 
+    //Cursor.lockState = CursorLockMode.None;
+    //Cursor.visible = true;
+    //break;
 
             case GameState.Pass:
                 Time.timeScale = 0f;

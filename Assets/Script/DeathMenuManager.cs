@@ -16,6 +16,8 @@ public class DeathMenuManager : MonoBehaviour
 
     [Header("═══ 主選單場景名稱 ═══")]
     [Tooltip("點擊『否』時，要跳轉的遊戲開始介面場景名稱")]
+    [Header("═══ 死亡原因提示 ═══")]
+public GameObject deathReasonPanel; // 這是你要顯示的圖片面板
     public string mainMenuSceneName = "MainMenu";
 
     private void Start()
@@ -31,20 +33,25 @@ public class DeathMenuManager : MonoBehaviour
     /// <summary>
     /// 被 DeathTrigger 呼叫：顯示死亡畫面並暫停遊戲
     /// </summary>
-    public void ShowDeathMenu()
+    // 1. 呼叫此方法顯示圖片提示
+public void ShowDeathReasonHint()
+{
+    if (deathReasonPanel != null)
     {
-        if (deathScreenPanel != null)
-        {
-            deathScreenPanel.SetActive(true);
-            
-            // 🌟 讓滑鼠游標顯示出來，玩家才能點按鈕
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            // 暫停遊戲時間（防止 NPC 繼續動或怪物繼續打）
-            Time.timeScale = 0f; 
-        }
+        deathReasonPanel.SetActive(true); // 顯示圖片
+        Time.timeScale = 0f;              // 暫停
+        Cursor.visible = true;
     }
+}
+
+// 2. 圖片面板上的按鈕執行此方法，點擊後跳到真正的死亡介面
+public void CloseHintAndShowDeathMenu()
+{
+    if (deathReasonPanel != null) deathReasonPanel.SetActive(false);
+    
+    // 直接呼叫原本的死亡介面邏輯
+    if (deathScreenPanel != null) deathScreenPanel.SetActive(true);
+}
 
     /// <summary>
     /// 🌟 按鈕按了【是】：繼續遊戲，回到重生點並繼承紀錄
