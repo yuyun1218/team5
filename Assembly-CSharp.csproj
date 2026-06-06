@@ -55,6 +55,7 @@
     <Compile Include="Assets/Script/PickupItem.cs" />
     <Compile Include="Assets/Script/ItemManager.cs" />
     <Compile Include="Assets/Script/CameraManager.cs" />
+    <Compile Include="Assets/Script/PanelTimer.cs" />
     <Compile Include="Assets/Script/InteractArea.cs" />
     <Compile Include="Assets/Script/UIManager.cs" />
     <Compile Include="Assets/Script/FreeCamExitZone.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets/Script/InteractAreaSetupTool.cs" />
     <Compile Include="Assets/Script/DraggableObject.cs" />
     <Compile Include="Assets/Script/LeverSystem.cs" />
+    <Compile Include="Assets/Script/Collectible.cs" />
     <Compile Include="Assets/Script/FreeCameraScopeTrigger.cs" />
     <Compile Include="Assets/Script/PivotDoorController.cs" />
     <Compile Include="Assets/Script/MirrorTarget.cs" />

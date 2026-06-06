@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic; // 必須引用
 
 public class UIManager : MonoBehaviour
 {
@@ -222,6 +223,9 @@ public void Hide2DHintPanel()
 
         // 🌟 核心修正：遊戲剛啟動時，狀態必須是 Start，這樣 Start Panel 才會顯示出來！
         SetGameState(GameState.Start);
+         totalTarget = collectibleItems.Count;
+        UpdateTaskUI();
+        ShowPanelTemporarily();
     }
 
    private void InitializeUI()
@@ -492,4 +496,58 @@ public void Hide2DHintPanel()
     { 
         if (panel != null) panel.SetActive(active); 
     }
+    [Header("═══ 任務目標清單 ═══")]
+    public Text taskText;
+    [Tooltip("將場景中所有碎片物件拖入此清單")]
+    public List<GameObject> collectibleItems; 
+    
+    private int collectedCount = 0;
+    private int totalTarget;
+
+   
+    // 核心：被 Collectible 呼叫的註冊方法
+    public void RegisterItemCollected(GameObject item)
+    {
+        if (collectibleItems.Contains(item))
+        {
+            collectibleItems.Remove(item); // 從清單移除
+            collectedCount++;
+            UpdateTaskUI();
+        }
+
+        // 檢查是否集齊
+        if (collectedCount >= totalTarget)
+        {
+            SetGameState(GameState.Pass);
+        }
+    }
+
+    private void UpdateTaskUI()
+    {
+        if (taskText != null)
+        {
+            taskText.text = $"任務目標：收集平面鏡碎片 {collectedCount}/{totalTarget}";
+        }
+    }
+
+    [Header("═══ 自動關閉面板設定 ═══")]
+public GameObject targetPanel; // 你要顯示的 Panel
+public float autoHideDelay = 3.0f; // 預設顯示時間
+
+// 通用方法：顯示 Panel 並自動倒數隱藏
+public void ShowPanelTemporarily()
+{
+    if (targetPanel == null) return;
+    
+    // 停止之前的計時，避免連續觸發導致閃爍
+    StopCoroutine("HidePanelRoutine");
+    StartCoroutine(HidePanelRoutine());
+}
+
+private IEnumerator HidePanelRoutine()
+{
+    targetPanel.SetActive(true);
+    yield return new WaitForSeconds(autoHideDelay);
+    targetPanel.SetActive(false);
+}
 }
