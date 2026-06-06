@@ -69,7 +69,6 @@
     <Compile Include="Assets/Script/InteractAreaSetupTool.cs" />
     <Compile Include="Assets/Script/DraggableObject.cs" />
     <Compile Include="Assets/Script/LeverSystem.cs" />
-    <Compile Include="Assets/Script/Collectible.cs" />
     <Compile Include="Assets/Script/FreeCameraScopeTrigger.cs" />
     <Compile Include="Assets/Script/PivotDoorController.cs" />
     <Compile Include="Assets/Script/MirrorTarget.cs" />
@@ -93,6 +92,7 @@
     <Compile Include="Assets/Script/InventoryRightClick.cs" />
     <Compile Include="Assets/Script/ItemRequiredZone.cs" />
     <Compile Include="Assets/Script/PulsingTitle.cs" />
+    <Compile Include="Assets/Script/NewMonoBehaviourScript1.cs" />
     <Compile Include="Assets/Script/InventorySlotTooltip.cs" />
     <Compile Include="Assets/Script/FieldItemPrompt.cs" />
     <Compile Include="Assets/trap/Trap.cs" />

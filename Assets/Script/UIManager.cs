@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic; // 必須引用
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -223,9 +223,9 @@ public void Hide2DHintPanel()
 
         // 🌟 核心修正：遊戲剛啟動時，狀態必須是 Start，這樣 Start Panel 才會顯示出來！
         SetGameState(GameState.Start);
-         totalTarget = collectibleItems.Count;
-        UpdateTaskUI();
         ShowPanelTemporarily();
+        
+
     }
 
    private void InitializeUI()
@@ -347,11 +347,11 @@ public void Hide2DHintPanel()
     /// 常規大通知方法（帶有 2 秒自動關閉功能）
     /// </summary>
     public void ShowMessage(string text)
-    {
-        if (messageText == null) return;
-        StopAllCoroutines();
-        StartCoroutine(MessageRoutine(text));
-    }
+{
+    if (messageText == null) return;
+
+    StartCoroutine(MessageRoutine(text));
+}
 
     private IEnumerator MessageRoutine(string text)
     {
@@ -496,40 +496,6 @@ public void Hide2DHintPanel()
     { 
         if (panel != null) panel.SetActive(active); 
     }
-    [Header("═══ 任務目標清單 ═══")]
-    public Text taskText;
-    [Tooltip("將場景中所有碎片物件拖入此清單")]
-    public List<GameObject> collectibleItems; 
-    
-    private int collectedCount = 0;
-    private int totalTarget;
-
-   
-    // 核心：被 Collectible 呼叫的註冊方法
-    public void RegisterItemCollected(GameObject item)
-    {
-        if (collectibleItems.Contains(item))
-        {
-            collectibleItems.Remove(item); // 從清單移除
-            collectedCount++;
-            UpdateTaskUI();
-        }
-
-        // 檢查是否集齊
-        if (collectedCount >= totalTarget)
-        {
-            SetGameState(GameState.Pass);
-        }
-    }
-
-    private void UpdateTaskUI()
-    {
-        if (taskText != null)
-        {
-            taskText.text = $"任務目標：收集平面鏡碎片 {collectedCount}/{totalTarget}";
-        }
-    }
-
     [Header("═══ 自動關閉面板設定 ═══")]
 public GameObject targetPanel; // 你要顯示的 Panel
 public float autoHideDelay = 3.0f; // 預設顯示時間
@@ -549,5 +515,65 @@ private IEnumerator HidePanelRoutine()
     targetPanel.SetActive(true);
     yield return new WaitForSeconds(autoHideDelay);
     targetPanel.SetActive(false);
+}
+
+
+[Header("═══ 任務目標清單 ═══")]
+public Text taskText;
+[Tooltip("在此放入所有需要收集的道具 Data 物件")]
+public List<ItemData> targetItems; 
+public int targetCount = 3; 
+
+private int collectedCount = 0;
+// 在 UIManager.cs 中
+public void AddMissionProgress()
+{
+    collectedCount++;
+
+    UpdateTaskUI();
+
+    if (collectedCount >= targetCount)
+    {
+        TriggerPass();
+    }
+}
+    // 2. 負責處理文字顯示的邏輯
+    private void UpdateTaskUI()
+    {
+        if (taskText != null)
+        {
+            taskText.text = $"任務目標：收集平面鏡碎片 {collectedCount}/{targetCount}";
+        }
+    }
+    
+
+private void TriggerPass()
+{
+    ShowMessage("已收集全部平面鏡碎片！");
+
+    Invoke(nameof(OpenPassPanel),2f);
+}
+
+private void OpenPassPanel()
+{
+    SetGameState(GameState.Pass);
+}
+
+[Header("收集物提示")]
+public GameObject collectPanel; // Inspector 拖入你的 Panel
+public float collectPanelTime = 2f;
+
+public void ShowCollectPanel()
+{
+    StartCoroutine(ShowCollectPanelRoutine());
+}
+
+private IEnumerator ShowCollectPanelRoutine()
+{
+    collectPanel.SetActive(true);
+
+    yield return new WaitForSeconds(collectPanelTime);
+
+    collectPanel.SetActive(false);
 }
 }

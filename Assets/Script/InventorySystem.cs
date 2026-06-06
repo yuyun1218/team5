@@ -63,12 +63,22 @@ public class InventorySystem : MonoBehaviour
 
     public void CloseInventory() => inventoryPanel.SetActive(false);
 
-    public void AddItem(ItemData data)
+   public void AddItem(ItemData data)
+{
+    if (data == null) return;
+
+    items.Add(data);
+
+    if (data.isMissionItem)
     {
-        if (data == null) return;
-        items.Add(data);
-        UpdateUI();
+        UIManager.Instance.AddMissionProgress();
+
+        // 顯示取得碎片提示
+        UIManager.Instance.ShowCollectPanel();
     }
+
+    UpdateUI();
+}
 
     public void UpdateUI()
 {
@@ -169,4 +179,5 @@ public class InventorySystem : MonoBehaviour
             CloseInventory();
         }
     }
+    
 }
