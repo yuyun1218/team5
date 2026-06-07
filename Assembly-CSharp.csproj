@@ -60,6 +60,7 @@
     <Compile Include="Assets/Script/UIManager.cs" />
     <Compile Include="Assets/Script/FreeCamExitZone.cs" />
     <Compile Include="Assets/Script/FreeCameraTrigger.cs" />
+    <Compile Include="Assets/Script/TutorialUI.cs" />
     <Compile Include="Assets/Script/RotatingTitle.cs" />
     <Compile Include="Assets/Script/ItemSpawner.cs" />
     <Compile Include="Assets/Script/IsolatedCameraLogicSystem.cs" />
