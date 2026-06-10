@@ -38,14 +38,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // --- 2. 背包開關 (Tab 鍵) ---
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (InventorySystem.Instance != null)
-            {
-                InventorySystem.Instance.ToggleInventory();
-            }
-        }
+       // --- 2. 背包開關 (B 鍵) ---
+if (Input.GetKeyDown(KeyCode.B))
+{
+    if (InventorySystem.Instance != null)
+    {
+        InventorySystem.Instance.ToggleInventory();
+    }
+}
 
         // --- 3. 監控視角下的互動邏輯 ---
         bool isMonitoring = CameraManager.Instance != null && !CameraManager.Instance.isNPCView;

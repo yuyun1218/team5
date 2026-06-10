@@ -359,7 +359,7 @@ public void Hide2DHintPanel()
         if (messageBgPanel != null) messageBgPanel.SetActive(true);
         messageText.gameObject.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(3f);
 
         if (messageBgPanel != null) messageBgPanel.SetActive(false);
         else if (messageText != null) messageText.gameObject.SetActive(false);
@@ -551,7 +551,7 @@ private void TriggerPass()
 {
     ShowMessage("已收集全部平面鏡碎片！");
 
-    Invoke(nameof(OpenPassPanel),2f);
+    Invoke(nameof(OpenPassPanel),3.5f);
 }
 
 private void OpenPassPanel()
@@ -561,7 +561,7 @@ private void OpenPassPanel()
 
 [Header("收集物提示")]
 public GameObject collectPanel; // Inspector 拖入你的 Panel
-public float collectPanelTime = 2f;
+public float collectPanelTime = 3.5f;
 
 public void ShowCollectPanel()
 {
